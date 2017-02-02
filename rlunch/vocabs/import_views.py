@@ -28,26 +28,26 @@ def import_xls(request):
             file = request.FILES['file']
             df = pd.read_excel(file)
             for i, row in df.iterrows():
-                #create conceptSchemes
-                scheme_title =row['conceptScheme'].split('|')[0]
-                temp_scheme,_ = SkosConceptScheme.objects.get_or_create(dc_title=scheme_title)
+                # create conceptSchemes
+                scheme_title = row['conceptScheme'].split('|')[0]
+                temp_scheme, _ = SkosConceptScheme.objects.get_or_create(dc_title=scheme_title)
                 temp_scheme.save()
-                #fetch labels and create SkosLabel objects
+                # fetch labels and create SkosLabel objects
                 concept_labels = str(row['1st order pref_label@eng | pref_label@ger']).split('|')
                 if len(concept_labels) > 1:
-                    pref_label,_ = SkosLabel.objects.get_or_create(
+                    pref_label, _ = SkosLabel.objects.get_or_create(
                         label=concept_labels[1],
                         label_type='prefLabel',
                         isoCode='ger'
                     )
                 else:
-                    pref_label,_ = SkosLabel.objects.get_or_create(
+                    pref_label, _ = SkosLabel.objects.get_or_create(
                         label="kein Label",
                         label_type='prefLabel',
                         isoCode='ger'
                     )
-                #create first order concepts
-                first_temp,_ = SkosConcept.objects.get_or_create(
+                # create first order concepts
+                first_temp, _ = SkosConcept.objects.get_or_create(
                     pref_label=concept_labels[0],
                     pref_label_lang='eng'
                 )
@@ -55,22 +55,22 @@ def import_xls(request):
                 first_temp.scheme.add(temp_scheme)
                 first_temp.save()
 
-                #create second order concepts
+                # create second order concepts
                 if str(row['1nd order pref_label@eng | pref_label@ger']) != "nan":
                     second_concept_labels = row['1nd order pref_label@eng | pref_label@ger'].split('|')
                     if len(second_concept_labels) > 1:
-                        second_pref_label,_ = SkosLabel.objects.get_or_create(
+                        second_pref_label, _ = SkosLabel.objects.get_or_create(
                             label=second_concept_labels[1],
                             label_type='prefLabel',
                             isoCode='ger'
                         )
                     else:
-                        second_pref_label,_ = SkosLabel.objects.get_or_create(
+                        second_pref_label, _ = SkosLabel.objects.get_or_create(
                             label="kein Label",
                             label_type='prefLabel',
                             isoCode='ger'
                         )
-                    second_temp,_ = SkosConcept.objects.get_or_create(
+                    second_temp, _ = SkosConcept.objects.get_or_create(
                         pref_label=second_concept_labels[0],
                         pref_label_lang='eng'
                     )
@@ -80,22 +80,22 @@ def import_xls(request):
                     second_temp.save()
                 else:
                     pass
-                #create third order concepts
+                # create third order concepts
                 if str(row['3rd order pref_label@eng | pref_label@ger']) != "nan":
                     third_concept_labels = row['3rd order pref_label@eng | pref_label@ger'].split('|')
                     if len(third_concept_labels) > 1:
-                        third_pref_label,_ = SkosLabel.objects.get_or_create(
+                        third_pref_label, _ = SkosLabel.objects.get_or_create(
                             label=third_concept_labels[1],
                             label_type='prefLabel',
                             isoCode='ger'
                         )
                     else:
-                        third_pref_label,_ = SkosLabel.objects.get_or_create(
+                        third_pref_label, _ = SkosLabel.objects.get_or_create(
                             label="kein Label",
                             label_type='prefLabel',
                             isoCode='ger'
                         )
-                    third_temp,_ = SkosConcept.objects.get_or_create(
+                    third_temp, _ = SkosConcept.objects.get_or_create(
                         pref_label=third_concept_labels[0],
                         pref_label_lang='eng'
                     )

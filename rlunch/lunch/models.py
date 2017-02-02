@@ -1,6 +1,7 @@
 from django.core.urlresolvers import reverse
-from django.db import models
 from django.utils import timezone
+from django.db import models
+from vocabs.models import SkosConcept
 
 
 class Talk(models.Model):
@@ -8,6 +9,7 @@ class Talk(models.Model):
     speaker = models.CharField(blank=True, max_length=250)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    how_was_it = models.ForeignKey(SkosConcept, blank=True, null=True)
 
     def __str__(self):
         return "'{}', by {}".format(self.title, self.speaker)

@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'dal',
+    'dal_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,8 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'django_tables2',
+    'django_filters',
+    'rest_framework',
     'webpage',
     'lunch',
+    'vocabs',
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap3"

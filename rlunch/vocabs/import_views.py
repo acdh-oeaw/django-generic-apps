@@ -56,8 +56,8 @@ def import_xls(request):
                 first_temp.save()
 
                 # create second order concepts
-                if str(row['1nd order pref_label@eng | pref_label@ger']) != "nan":
-                    second_concept_labels = row['1nd order pref_label@eng | pref_label@ger'].split('|')
+                if str(row['2nd order pref_label@eng | pref_label@ger']) != "nan":
+                    second_concept_labels = row['2nd order pref_label@eng | pref_label@ger'].split('|')
                     if len(second_concept_labels) > 1:
                         second_pref_label, _ = SkosLabel.objects.get_or_create(
                             label=second_concept_labels[1],
